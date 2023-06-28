@@ -19,7 +19,6 @@ import br.edu.utfpr.dv.sigeu.config.Config;
 public class HibernateUtil {
 	public static final int HIBERNATE_BATCH_SIZE = 100;
 	private static HibernateUtil self;
-	// private ComboPooledDataSource cpds = null;
 
 	private SessionFactory sessionFactory = null;
 	private ServiceRegistry serviceRegistry = null;
@@ -57,7 +56,6 @@ public class HibernateUtil {
 		configuration.setProperty("hibernate.connection.password", password);
 		configuration.setProperty("hibernate.connection.autocommit", "false");
 		configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-		//configuration.setProperty("hibernate.show_sql", "false");
 		configuration.setProperty("hibernate.show_sql", String.valueOf(Config.getInstance().isDebugMode()));
 		configuration.setProperty("hibernate.order_updates", "true");
 		configuration.setProperty("hibernate.default_schema", "public");
@@ -68,13 +66,7 @@ public class HibernateUtil {
 		configuration.setProperty("hibernate.c3p0.max_size", String.valueOf(poolMax));
 		configuration.setProperty("hibernate.jdbc.batch_size", String.valueOf(HIBERNATE_BATCH_SIZE));
 
-		// configuration.setProperty("hibernate.c3p0.unreturnedConnectionTimeout",
-		// "10");
-
-		// configuration.configure();
-
 		// Add Classes
-		// HibernateClassMappings.addClasses(configuration);
 		HibernateEntityMappings.loadClasses(configuration, "br.edu.utfpr.dv.sigeu.entities");
 
 		serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();

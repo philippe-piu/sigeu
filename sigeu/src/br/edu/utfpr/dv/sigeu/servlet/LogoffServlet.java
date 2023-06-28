@@ -25,11 +25,8 @@ public class LogoffServlet extends HttpServlet {
 
 	private void logoff(HttpServletRequest req, HttpServletResponse resp) {
 		resp.setContentType("text/html;charset=UTF-8");
-		try {
-			req.getSession().invalidate();
-		} finally {
-			//
-		}
+		HttpSession session = req.getSession();
+		session.invalidate();
 
 		String url = req.getContextPath();
 

@@ -19,14 +19,10 @@ public class StartupServlet extends HttpServlet {
 	public void init() throws ServletException {
 		super.init();
 
-		/**
-		 * Cria as conexões iniciais do pool de conexões, diminuindo o tempo de
-		 * resposta no primeiro login.
-		 */
-//		System.out.print("===> Iniciando pool de conexões... ");
-//		int qtd = CampusService.contarCampus();
-//		System.out.println("===> Pool de conexões iniciado para " + qtd
-//				+ " campus");
+		System.out.print("===> Iniciando pool de conexões... ");
+		int qtd = CampusService.contarCampus();
+		System.out.println("===> Pool de conexões iniciado para " + qtd
+		+ " campus");
 	}
 
 }

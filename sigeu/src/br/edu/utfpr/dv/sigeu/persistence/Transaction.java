@@ -60,7 +60,6 @@ public class Transaction {
 	 */
 	public void flush() {
 		session.flush();
-		// session.clear();
 	}
 
 	/**
