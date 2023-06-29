@@ -16,15 +16,15 @@ public class DateConverter implements Converter {
 
 	@Override
 	public Date getAsObject(FacesContext context, UIComponent component, String value) {
-		Date date;
 		try {
-			date = new Date(sdf.parse(value).getTime());
+			return sdf.parse(value);
 		} catch (ParseException e) {
 			e.printStackTrace();
 			return null;
 		}
-		return date;
+		return null;
 	}
+
 
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {

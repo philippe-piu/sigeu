@@ -10,155 +10,150 @@ import com.adamiworks.utils.FileUtils;
 
 public class Config {
 
-	public static final String APPLICATION_NAME = "Sistema Integrado de Gestão Universitária";
-	public static final String APPLICATION_CODE = "SIGEU";
-	public static final String APPLICATION_VERSION = "1.4.8";
-	public static final String CONFIG_ADMIN = "admin";
-	public static final String CONFIG_DEBUG = "debug";
-	public static final String CONFIG_PATH_UPLOAD = "path.upload";
-	public static final String CONFIG_FILE = "config.properties";
-	public static final String NOME_GRUPO_EXTERNO = "EXTERNO";
-	public static final String SEND_MAIL = "sendmail";
-	//
-	private static Config self;
-	//
-	private Properties config;
-	private boolean debugMode;
-	private boolean adminMode;
-	private int threadMax = 2;
-	private String url;
-	private boolean sendMail = false;
+    public static final String APPLICATION_NAME = "Sistema Integrado de Gestão Universitária";
+    public static final String APPLICATION_CODE = "SIGEU";
+    public static final String APPLICATION_VERSION = "1.4.8";
+    public static final String NOME_GRUPO_EXTERNO = "EXTERNO";
 
-	static {
-		self = new Config();
-	}
+    // Constantes relacionadas ao arquivo de configuração
+    private static class ConfigProperties {
+        public static final String ADMIN = "admin";
+        public static final String DEBUG = "debug";
+        public static final String PATH_UPLOAD = "path.upload";
+        public static final String FILE = "config.properties";
+        public static final String SEND_MAIL = "sendmail";
+    }
 
-	private Config() {
-		// Lê arquivo de configurações
-		try {
-			config = FileUtils.getPropertiesFromClasspath(CONFIG_FILE);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+    private static Config self;
 
-		this.adminMode = false;
-		try {
-			System.out.print("Validando modo Admin: [");
-			String admin = config.getProperty(CONFIG_ADMIN).trim().toLowerCase();
-			System.out.println(admin + "]");
-			if (admin != null) {
-				if (admin.toLowerCase().equals("true")) {
-					System.out.println("*** SISTEMA ESTÁ EM MANUTENÇÃO ***");
-					this.adminMode = true;
-				}
-			}
-		} catch (Exception e) {
-			// ignora
-		}
+    private Properties config;
+    private boolean debugMode;
+    private boolean adminMode;
+    private int threadMax = 2;
+    private String url;
+    private boolean sendMail = false;
 
-		this.debugMode = false;
+    static {
+        self = new Config();
+    }
 
-		try {
-			String debug = config.getProperty(CONFIG_DEBUG).trim().toLowerCase();
-			if (debug != null) {
-				if (debug.equals("true")) {
-					this.debugMode = true;
-				}
-			}
-		} catch (Exception e) {
-			// ignora
-		}
+    private Config() {
+        // Lê arquivo de configurações
+        try {
+            config = FileUtils.getPropertiesFromClasspath(ConfigProperties.FILE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-		try {
-			String thread = config.getProperty("thread.max").trim().toLowerCase();
-			if (thread != null) {
-				this.threadMax = Integer.valueOf(thread);
-			}
-		} catch (Exception e) {
-			this.threadMax = 2;
-		}
+        this.adminMode = false;
+        try {
+            System.out.print("Validando modo Admin: [");
+            String admin = getProperty(ConfigProperties.ADMIN); 
+            System.out.println(admin + "]");
+            if (admin != null && admin.equals("true")) {
+                System.out.println("*** SISTEMA ESTÁ EM MANUTENÇÃO ***");
+                this.adminMode = true;
+            }
+        } catch (Exception e) {
+            // ignora
+        }
 
-		try {
-			url = config.getProperty("url").trim().toLowerCase();
-		} catch (Exception e) {
-			// ignora
-		}
+        this.debugMode = false;
 
-		this.sendMail = true;
+        try {
+            String debug = getProperty(ConfigProperties.DEBUG); 
+            if (debug != null && debug.equals("true")) {
+                this.debugMode = true;
+            }
+        } catch (Exception e) {
+            // ignora
+        }
 
-		try {
-			String sendMailstr = config.getProperty(SEND_MAIL).trim().toLowerCase();
-			if (sendMailstr != null) {
-				if (sendMailstr.equals("false")) {
-					this.sendMail = false;
-				}
-			}
-		} catch (Exception e) {
-			// ignora
-		}
-	}
+        try {
+            String thread = getProperty("thread.max"); 
+            if (thread != null) {
+                this.threadMax = Integer.valueOf(thread);
+            }
+        } catch (Exception e) {
+            this.threadMax = 2;
+        }
 
-	public static Config getInstance() {
-		// if (self == null) {
-		// self = new Config();
-		// }
-		return self;
-	}
+        try {
+            url = getProperty("url"); 
+        } catch (Exception e) {
+            // ignora
+        }
 
-	/**
-	 * Retorna o valor de uma propriedade do arquivo sigeu.properties. As
-	 * propriedades disponíveis são constantes dessa mesma classe iniciadas por
-	 * <code><b>CONFIG_</b></code>.
-	 * 
-	 * @param name
-	 *            Constantes desta mesma classe iniciada por
-	 *            <code><b>CONFIG_</b></code>.
-	 * @return
-	 */
-	public String getConfig(String name) {
-		return config.getProperty(name);
-	}
+        this.sendMail = true;
 
-	/**
-	 * Insere uma variável de sessão e define seu valor
-	 * 
-	 * @param key
-	 * @param value
-	 */
-	public void setSessionVariable(String key, Object value) {
-		Map<String, Object> map = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-		map.put(key, value);
-	}
+        try {
+            String sendMailstr = getProperty(ConfigProperties.SEND_MAIL); 
+            if (sendMailstr != null && sendMailstr.equals("false")) {
+                this.sendMail = false;
+            }
+        } catch (Exception e) {
+            // ignora
+        }
+    }
 
-	/**
-	 * Recupera o valor de uma variável de sessão
-	 * 
-	 * @param key
-	 * @return
-	 */
-	public Object getSessionVariable(String key) {
-		Map<String, Object> map = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-		return map.get(key);
-	}
+    public static Config getInstance() {
+        return self;
+    }
 
-	public boolean isDebugMode() {
-		return debugMode;
-	}
+    /**
+     * Retorna o valor de uma propriedade do arquivo config.properties.
+     *
+     * @param name Nome da propriedade.
+     * @return Valor da propriedade.
+     */
+    public String getConfig(String name) {
+        return config.getProperty(name);
+    }
 
-	public int getThreadMax() {
-		return threadMax;
-	}
+    /**
+     * Insere uma variável de sessão e define seu valor.
+     *
+     * @param key   Chave da variável de sessão.
+     * @param value Valor da variável de sessão.
+     */
+    public void setSessionVariable(String key, Object value) {
+        Map<String, Object> map = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        map.put(key, value);
+    }
 
-	public String getUrl() {
-		return url;
-	}
+    /**
+     * Recupera o valor de uma variável de sessão.
+     *
+     * @param key Chave da variável de sessão.
+     * @return Valor da variável de sessão.
+     */
+    public Object getSessionVariable(String key) {
+        Map<String, Object> map = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+        return map.get(key);
+    }
 
-	public boolean isAdminMode() {
-		return adminMode;
-	}
+    public boolean isDebugMode() {
+        return debugMode;
+    }
 
-	public boolean isSendMail() {
-		return sendMail;
-	}
+    public int getThreadMax() {
+        return threadMax;
+    }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public boolean isAdminMode() {
+        return adminMode;
+    }
+
+    public boolean isSendMail() {
+        return sendMail;
+    }
+
+    private String getProperty(String propertyName) {
+        String value = config.getProperty(propertyName);
+        return value != null ? value.trim().toLowerCase() : null;
+    }
 }

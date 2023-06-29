@@ -28,7 +28,7 @@ public class TipoReservaConverter implements Converter {
 					null);
 			for (TipoReserva t : list) {
 				if (t.getDescricao().equals(value)) {
-					ret = t;
+					TipoReserva	ret = t;
 					break;
 				}
 			}

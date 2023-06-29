@@ -20,24 +20,24 @@ public class PeriodoLetivoConverter implements Converter {
 	public PeriodoLetivo getAsObject(FacesContext context,
 			UIComponent component, String value) {
 		try {
-			Map<String, Object> sessionMap = context.getExternalContext()
-					.getSessionMap();
-			Campus campus = (Campus) sessionMap.get(LoginFilter.SESSION_CAMPUS);
-			PeriodoLetivo pl = PeriodoLetivoService.encontrePorNome(campus,
-					value);
-
-			return pl;
+			PeriodoLetivoService periodoLetivoService = getPeriodoLetivoService();
+			return periodoLetivoService.encontrePorNome(value);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 
+	private PeriodoLetivoService getPeriodoLetivoService() {
+		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+		Campus campus = (Campus) sessionMap.get(LoginFilter.SESSION_CAMPUS);
+		return new PeriodoLetivoService(campus);
+	}
+
 	@Override
 	public String getAsString(FacesContext context, UIComponent component,
 			Object value) {
 		if (value == null || !(value instanceof PeriodoLetivo)) {
-			// System.out.println("---> PERIODO LETIVO NULL OU VAZIO <---");
 			return "";
 		}
 
