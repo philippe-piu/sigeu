@@ -80,15 +80,13 @@ public class PessoaDAO extends HibernateDAO<Pessoa> {
 		return "pessoa";
 	}
 
+	private void atualizarNomeCompleto(Pessoa pessoa) {
+		pessoa.setNomeCompleto(pessoa.getNomeCompleto().toUpperCase().trim());
+	}
+
 	@Override
 	public void preCriacao(Pessoa o) {
-		o.setNomeCompleto(o.getNomeCompleto().toUpperCase().trim());
-		// Integer id = this.gerarNovoId().intValue();
-		// o.setIdPessoa(id);
-		/*
-		 * O ID da entidade PESSOA é adicionada automaticamente pelo banco de
-		 * dados
-		 */
+		atualizarNomeCompleto(o);
 	}
 
 	public List<Pessoa> pesquisa(Campus campus, String textoPesquisa, int limit) {
@@ -223,6 +221,6 @@ public class PessoaDAO extends HibernateDAO<Pessoa> {
 
 	@Override
 	public void preAlteracao(Pessoa o) {
-		o.setNomeCompleto(o.getNomeCompleto().toUpperCase().trim());
+		atualizarNomeCompleto(o);
 	}
 }

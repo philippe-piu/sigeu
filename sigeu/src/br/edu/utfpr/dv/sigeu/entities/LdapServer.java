@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.edu.utfpr.dv.sigeu.entities;
 
 import java.io.Serializable;
@@ -18,49 +13,67 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
- *
- * @author Tiago
+ * A entidade LdapServer representa um servidor LDAP no sistema.
  */
 @Entity
 @Table(name = "ldap_server")
 @NamedQueries({
-    @NamedQuery(name = "LdapServer.findAll", query = "SELECT l FROM LdapServer l")})
+    @NamedQuery(name = "LdapServer.findAll", query = "SELECT l FROM LdapServer l")
+})
 public class LdapServer implements Serializable {
     private static final long serialVersionUID = 1L;
+    
+    // Atributos da entidade
+    
     @Id
     @Basic(optional = false)
     @Column(name = "id_server")
     private Integer idServer;
+    
     @Basic(optional = false)
     private String host;
+    
     @Basic(optional = false)
     private int port;
+    
     @Basic(optional = false)
     private boolean ssl;
+    
     @Basic(optional = false)
     private String basedn;
+    
     @Basic(optional = false)
     @Column(name = "sufixo_email")
     private String sufixoEmail;
+    
     @Column(name = "var_ldap_nome_completo")
     private String varLdapNomeCompleto;
+    
     @Column(name = "var_ldap_email")
     private String varLdapEmail;
+    
     @Column(name = "var_ldap_cnpj_cpf")
     private String varLdapCnpjCpf;
+    
     @Column(name = "var_ldap_matricula")
     private String varLdapMatricula;
+    
     @Column(name = "var_ldap_uid")
     private String varLdapUid;
+    
     @Basic(optional = false)
     @Column(name = "var_ldap_campus")
     private String varLdapCampus;
+    
     @Basic(optional = false)
     private boolean ativo;
+    
     @JoinColumn(name = "id_campus", referencedColumnName = "id_campus")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Campus idCampus;
 
+    // Construtores
+    
     public LdapServer() {
     }
 
@@ -79,6 +92,8 @@ public class LdapServer implements Serializable {
         this.ativo = ativo;
     }
 
+    // Getters e Setters
+    
     public Integer getIdServer() {
         return idServer;
     }
@@ -103,7 +118,7 @@ public class LdapServer implements Serializable {
         this.port = port;
     }
 
-    public boolean getSsl() {
+    public boolean isSsl() {
         return ssl;
     }
 
@@ -175,7 +190,7 @@ public class LdapServer implements Serializable {
         this.varLdapCampus = varLdapCampus;
     }
 
-    public boolean getAtivo() {
+    public boolean isAtivo() {
         return ativo;
     }
 
@@ -191,6 +206,8 @@ public class LdapServer implements Serializable {
         this.idCampus = idCampus;
     }
 
+    // hashCode, equals e toString
+    
     @Override
     public int hashCode() {
         int hash = 0;

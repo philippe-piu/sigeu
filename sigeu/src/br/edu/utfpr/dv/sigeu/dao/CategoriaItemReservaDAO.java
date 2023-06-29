@@ -36,9 +36,8 @@ public class CategoriaItemReservaDAO extends HibernateDAO<CategoriaItemReserva> 
 
 	@Override
 	public void preCriacao(CategoriaItemReserva o) {
-		Long val = this.gerarNovoId();
-		o.setIdCategoria(val.intValue());
-		o.setNome(o.getNome().toUpperCase().trim());
+		o.setIdCategoria(gerarNovoId().intValue());
+		formatNome(o);
 	}
 
 	@Override
@@ -78,13 +77,15 @@ public class CategoriaItemReservaDAO extends HibernateDAO<CategoriaItemReserva> 
 	}
 
 	public List<CategoriaItemReserva> pesquisa(Campus campus, String textoPesquisa, int limit) {
-		Boolean ativo = null;
-		return this.pesquisa(campus, null, ativo, limit);
+		return pesquisa(campus, textoPesquisa, null, limit);
 	}
 
 	@Override
 	public void preAlteracao(CategoriaItemReserva o) {
-		o.setNome(o.getNome().toUpperCase().trim());
+		formatNome(o);
 	}
 
+	private void formatNome(CategoriaItemReserva o) {
+		o.setNome(o.getNome().toUpperCase().trim());
+	}
 }
