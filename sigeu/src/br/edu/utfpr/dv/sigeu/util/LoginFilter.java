@@ -18,19 +18,13 @@ public class LoginFilter implements Filter {
 	public static final String SESSION_CAMPUS = "campus";
 
 	@Override
-	public void destroy() {
-
-	}
-
-	@Override
-	public void doFilter(ServletRequest request, ServletResponse response,
-			FilterChain chain) throws IOException, ServletException {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
 		boolean loginOk = false;
 		String email = null;
 		HttpServletRequest requestHttp = ((HttpServletRequest) request);
 
-		Object emailSessao = requestHttp.getSession().getAttribute(
-				SESSION_EMAIL_LOGIN);
+		Object emailSessao = requestHttp.getSession().getAttribute(SESSION_EMAIL_LOGIN);
 
 		if (emailSessao != null) {
 			email = (String) emailSessao;
@@ -39,18 +33,13 @@ public class LoginFilter implements Filter {
 		loginOk = (email != null && email.trim().length() > 0);
 
 		if (!loginOk) {
-			// Manda para página de login
+			// Redireciona para a página de login
 			String contextPath = requestHttp.getContextPath();
-			((HttpServletResponse) response).sendRedirect(contextPath
-					+ "/Login.xhtml");
+			((HttpServletResponse) response).sendRedirect(contextPath + "/Login.xhtml");
 		} else {
 			// Continua na página solicitada
 			chain.doFilter(request, response);
 		}
 	}
-
-	@Override
-	public void init(FilterConfig arg0) throws ServletException {
-
-	}
+	
 }

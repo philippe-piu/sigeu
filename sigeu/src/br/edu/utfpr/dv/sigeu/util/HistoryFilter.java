@@ -20,17 +20,6 @@ public class HistoryFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 
-//		HttpServletRequest requestHttp = ((HttpServletRequest) request);
-//
-//		String uri = "";
-//
-//		if (request instanceof HttpServletRequest) {
-//			uri = requestHttp.getRequestURI();
-//		}
-
-		//ConfigHistory.getInstance().addHistoryEntry(uri);
-		//System.out.println(ConfigHistory.getInstance().toString());
-
 		// Continua na página solicitada
 		chain.doFilter(request, response);
 	}

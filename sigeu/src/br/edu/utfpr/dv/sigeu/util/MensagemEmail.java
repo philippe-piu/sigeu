@@ -19,7 +19,6 @@ public class MensagemEmail {
 	private static final byte[] MAIL_KEY_PASSWORD = { -112, 78, -12, 45, -13, 51, -84, 8 };
 
 	private List<MailSenderMessage> mensagens;
-
 	private Campus campus;
 
 	public MensagemEmail(Campus campus) {
@@ -27,53 +26,18 @@ public class MensagemEmail {
 	}
 
 	/**
-	 * Cria uma mensagem texto-simples para 2 destinatários, um principal e uma
-	 * cópia, sem anexos
+	 * Cria uma mensagem de e-mail.
 	 * 
-	 * @param to
-	 * @param cc
-	 * @param assunto
-	 * @param conteudo
-	 * @throws DestinatarioInexistenteException
+	 * @param to               Array de destinatários principais
+	 * @param cc               Array de destinatários em cópia
+	 * @param bcc              Array de destinatários em cópia oculta
+	 * @param assunto          Assunto da mensagem
+	 * @param conteudo         Conteúdo da mensagem (texto ou HTML)
+	 * @param conteudoHtml     Indica se o conteúdo é HTML ou texto simples
+	 * @param pathArquivosAnexos Lista de caminhos dos arquivos anexos
+	 * @throws DestinatarioInexistenteException Se nenhum destinatário for especificado
 	 */
-	public void criaMensagemTextoSimples(String to, String cc, String assunto, String conteudo)
-			throws DestinatarioInexistenteException {
-		String aTo[] = new String[] { to };
-		String aCc[] = new String[] { cc };
-		this.criaMensagem(aTo, aCc, null, assunto, conteudo, false, null);
-	}
-
-	/**
-	 * Cria uma mensagem HTML para 2 destinatários, um principal e uma cópia,
-	 * sem anexos
-	 * 
-	 * @param to
-	 * @param cc
-	 * @param assunto
-	 * @param html
-	 * @throws DestinatarioInexistenteException
-	 */
-	public void criaMensagemHtml(String to, String cc, String assunto, String html)
-			throws DestinatarioInexistenteException {
-		String aTo[] = new String[] { to };
-		String aCc[] = new String[] { cc };
-		this.criaMensagem(aTo, aCc, null, assunto, html, true, null);
-	}
-
-	/**
-	 * Cria uma mensagem a ser enviada. As mensagens ficarão retidas no objeto
-	 * até que o metodo <b>enviarMensagens</b> seja invocado.
-	 * 
-	 * @param to
-	 * @param cc
-	 * @param bcc
-	 * @param assunto
-	 * @param conteudo
-	 * @param conteudoHtml
-	 * @param pathArquivosAnexos
-	 * @throws DestinatarioInexistenteException
-	 */
-	public void criaMensagem(String to[], String cc[], String bcc[], String assunto, String conteudo,
+	public void criaMensagem(String[] to, String[] cc, String[] bcc, String assunto, String conteudo,
 			boolean conteudoHtml, List<String> pathArquivosAnexos) throws DestinatarioInexistenteException {
 		if (to == null && cc == null && bcc == null) {
 			throw new DestinatarioInexistenteException();
@@ -121,13 +85,8 @@ public class MensagemEmail {
 	}
 
 	/**
-	 * Envia todas as mensagens armazenadas no objeto
-	 * 
-	 * ATENÇÃO!!!
-	 * 
-	 * ESTE MÉTODO NÃO POSSUI IDENTIFICADOR DE ESCOPO (private, protected ou
-	 * public) POIS DEVE SER EXECUTADO APENAS PELA THREAD DE ENVIO DE E-MAILS.
-	 * 
+	 * Envia todas as mensagens armazenadas no objeto.
+	 * Este método deve ser chamado pela thread de envio de e-mails.
 	 * @throws Exception
 	 */
 	void enviarMensagensThread() {
@@ -155,6 +114,11 @@ public class MensagemEmail {
 		}
 	}
 
+	/**
+	 * Envia as mensagens de e-mail.
+	 * Se o modo de depuração estiver ativado, envia as mensagens diretamente.
+	 * Caso contrário, inicia uma thread para enviar as mensagens.
+	 */
 	public void enviaMensagens() {
 		if (!Config.getInstance().isDebugMode()) {
 			ThreadEnviaMensagemEmail thread = new ThreadEnviaMensagemEmail(this);
