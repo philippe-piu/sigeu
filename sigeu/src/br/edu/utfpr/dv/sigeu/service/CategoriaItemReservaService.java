@@ -11,16 +11,18 @@ import br.edu.utfpr.dv.sigeu.exception.EntidadePossuiRelacionamentoException;
 import br.edu.utfpr.dv.sigeu.persistence.Transaction;
 
 public class CategoriaItemReservaService {
+
+	//Criação de objeto
+	private static Transaction trans = new Transaction();
+	private static CategoriaItemReservaDAO dao = new CategoriaItemReservaDAO(trans);
 	/**
 	 * Cria nova categoria
 	 * 
 	 * @param cat
 	 */
 	public static void criar(CategoriaItemReserva cat) {
-		Transaction trans = new Transaction();
 		trans.begin();
 
-		CategoriaItemReservaDAO dao = new CategoriaItemReservaDAO(trans);
 		dao.criar(cat);
 
 		trans.commit();
@@ -33,10 +35,8 @@ public class CategoriaItemReservaService {
 	 * @param cat
 	 */
 	public static void alterar(CategoriaItemReserva cat) {
-		Transaction trans = new Transaction();
 		trans.begin();
 
-		CategoriaItemReservaDAO dao = new CategoriaItemReservaDAO(trans);
 		dao.alterar(cat);
 
 		trans.commit();
@@ -50,12 +50,9 @@ public class CategoriaItemReservaService {
 	 * @throws Exception
 	 */
 	public static void persistir(CategoriaItemReserva cat) throws Exception {
-		Transaction trans = new Transaction();
 
 		try {
 			trans.begin();
-
-			CategoriaItemReservaDAO dao = new CategoriaItemReservaDAO(trans);
 
 			if (cat.getIdCategoria() != null) {
 				dao.alterar(cat);
@@ -82,11 +79,9 @@ public class CategoriaItemReservaService {
 	 */
 	public static List<CategoriaItemReserva> pesquisar(Campus campus, String textoPesquisa, Boolean ativo) throws Exception {
 		List<CategoriaItemReserva> lista = null;
-		Transaction trans = new Transaction();
 
 		try {
 			trans.begin();
-			CategoriaItemReservaDAO dao = new CategoriaItemReservaDAO(trans);
 
 			lista = dao.pesquisa(campus, textoPesquisa, ativo, 0);
 
@@ -114,11 +109,9 @@ public class CategoriaItemReservaService {
 	 * @throws Exception
 	 */
 	public static CategoriaItemReserva encontrePorId(Integer editarId) throws Exception {
-		Transaction trans = new Transaction();
 
 		try {
 			trans.begin();
-			CategoriaItemReservaDAO dao = new CategoriaItemReservaDAO(trans);
 			CategoriaItemReserva obj = dao.encontrePorId(editarId);
 			if (obj != null) {
 				Hibernate.initialize(obj.getIdCampus());
@@ -140,12 +133,10 @@ public class CategoriaItemReservaService {
 	 * @throws Exception
 	 */
 	public static void remover(CategoriaItemReserva categoria) throws Exception {
-		Transaction trans = new Transaction();
 
 		try {
 			trans.begin();
-
-			CategoriaItemReservaDAO dao = new CategoriaItemReservaDAO(trans);
+			
 			CategoriaItemReserva cat = dao.encontrePorId(categoria.getIdCategoria());
 
 			if (cat != null) {

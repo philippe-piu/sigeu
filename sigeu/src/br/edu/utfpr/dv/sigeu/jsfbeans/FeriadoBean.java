@@ -78,9 +78,6 @@ public class FeriadoBean extends JavaBean {
 					f.setIdFeriado(null);
 					f.setTipo(feriado.getTipo());
 
-					// System.out.println("Gravando feriado: " +
-					// data.toString());
-
 					FeriadoService.persistir(f);
 
 					data.add(Calendar.DAY_OF_MONTH, 1);

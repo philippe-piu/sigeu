@@ -40,8 +40,6 @@ public class LdapServerBean extends JavaBean {
 	public void init() {
 		ldapServer = new LdapServer();
 		ldapServer.setAtivo(true);
-		// ldapServer.setIdCampus(new Campus());
-		// ldapServer.getIdCampus().setIdInstituicao(new Instituicao());
 
 		HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
 
@@ -81,7 +79,6 @@ public class LdapServerBean extends JavaBean {
 		if (campus == null || instituicao == null || campus.getIdCampus() == null || instituicao.getIdInstituicao() == null) {
 			addWarnMessage("Gravar", "Instituição/Campus não selecionados.");
 		} else {
-			// ldapServer.setCampus(campus);
 			ldapServer.setIdCampus(campus);
 
 			try {

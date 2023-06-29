@@ -24,6 +24,25 @@ public class EmailService {
 		EmailService.enviaEmailConfirmacao(campus, reservas, emails);
 	}
 
+	public static String gerarTabela() {
+    StringBuilder sb = new StringBuilder();
+
+    sb.append("<tr>");
+    sb.append("<td><b>Recurso</b></td>");
+    sb.append("<td><b>Tipo</b></td>");
+    sb.append("<td><b>Dia da Semana</b></td>");
+    sb.append("<td><b>Data</b></td>");
+    sb.append("<td><b>Horário</b></td>");
+    sb.append("<td><b>Usuário</b></td>");
+    sb.append("<td><b>Descrição</b></td>");
+    sb.append("<td><b>Motivo</b></td>");
+    sb.append("<td><b>Quem cancelou</b></td>");
+    sb.append("<td><b>Motivo do Cancelamento</b></td>");
+    sb.append("</tr>");
+
+    return sb.toString();
+}
+
 	/**
 	 * Envia e-mail de confirmação de reserva .
 	 * 
@@ -47,19 +66,7 @@ public class EmailService {
 
 		StringBuilder sb = new StringBuilder(
 				"<h1>CONFIRMAÇÃO DE RESERVA(S) REALIZADA(S) ATRAVÉS DO SIGEU:</h1><br/><table cellspacing=\"2\">");
-
-		sb.append("<tr>");
-		sb.append("<td><b>Recurso</b></td>");
-		sb.append("<td><b>Tipo</b></td>");
-		sb.append("<td><b>Dia da Semana</b></td>");
-		sb.append("<td><b>Data</b></td>");
-		sb.append("<td><b>Horário</b></td>");
-		sb.append("<td><b>Usuário</b></td>");
-		sb.append("<td><b>Descrição</b></td>");
-		sb.append("<td><b>Motivo</b></td>");
-		sb.append("<td><b>Quem fez a reserva</b></td>");
-		sb.append("<td><b>Quem autorizou</b></td>");
-		sb.append("</tr>");
+				gerarTabela();
 
 		try {
 			for (Reserva r : listaReserva) {
@@ -156,19 +163,7 @@ public class EmailService {
 
 		StringBuilder sb = new StringBuilder(
 				"<h1>CANCELAMENTO DE RESERVA(S) REALIZADA(S) ATRAVÉS DO SIGEU:</h1><br/><table cellspacing=\"2\">");
-
-		sb.append("<tr>");
-		sb.append("<td><b>Recurso</b></td>");
-		sb.append("<td><b>Tipo</b></td>");
-		sb.append("<td><b>Dia da Semana</b></td>");
-		sb.append("<td><b>Data</b></td>");
-		sb.append("<td><b>Horário</b></td>");
-		sb.append("<td><b>Usuário</b></td>");
-		sb.append("<td><b>Descrição</b></td>");
-		sb.append("<td><b>Motivo</b></td>");
-		sb.append("<td><b>Quem cancelou</b></td>");
-		sb.append("<td><b>Motivo do Cancelamento</b></td>");
-		sb.append("</tr>");
+				gerarTabela();
 
 		try {
 			for (Reserva r : listaReserva) {
@@ -178,8 +173,6 @@ public class EmailService {
 
 				String data = dateFormat.format(r.getData());
 				String horario = timeFormat.format(r.getHoraInicio()) + " - " + timeFormat.format(r.getHoraFim());
-				// String assunto = "Reserva " + r.getIdItemReserva().getNome()
-				// + " em " + data + " (" + diaDaSemana + ")";
 
 				String motivo = r.getMotivo().replaceAll("\\r?\\n", " ");
 				motivo = motivo.replaceAll("\\r\\n", " ");

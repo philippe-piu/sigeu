@@ -117,8 +117,6 @@ public abstract class JavaBean implements Serializable {
 
 	protected void handleException(Throwable t) {
 		addErrorMessage("Exception", t.toString());
-		// Se este print ocorrer, a mensagem de erro não será exibida na tela
-		// t.printStackTrace();
 	}
 
 	protected void handleException(String msg, Throwable t) {
@@ -127,7 +125,5 @@ public abstract class JavaBean implements Serializable {
 		} else {
 			addErrorMessage("Exception", msg);
 		}
-		// Se este print ocorrer, a mensagem de erro não será exibida na tela
-		// t.printStackTrace();
 	}
 }

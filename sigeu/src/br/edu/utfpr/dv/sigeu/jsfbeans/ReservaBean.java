@@ -209,7 +209,6 @@ public class ReservaBean extends JavaBean {
 			}
 		}
 
-		// listaCategoriaItemReserva = null;
 		campoCategoria = categoriaItemReserva.getNome();
 	}
 
@@ -226,7 +225,6 @@ public class ReservaBean extends JavaBean {
 			}
 		}
 
-		// listaItemReserva = null;
 		campoItem = itemReserva.getNome();
 	}
 
@@ -250,16 +248,10 @@ public class ReservaBean extends JavaBean {
 	}
 
 	public void pesquisa() {
-//		this.listaItemReserva = null;
-//		this.listaMinhasReservas = null;
-//		this.listaReservaVO = null;
-//		this.itemReserva = null;
 		this.listaItemDisponivel = null;
 		
 		/** Valida período letivo atual */
 		try {
-			// validaPeriodoLetivo();
-
 			categoriaItemReserva = null;
 
 			if (campoItem == null || campoItem.trim().equals("")) {
@@ -305,12 +297,6 @@ public class ReservaBean extends JavaBean {
 					this.addErrorMessage("Horário inválido", "Hora inicial deve ser menor que hora final.");
 				} else {
 					try {
-						// Preenche a lista de reservas do dia
-						// this.listaReservaDia =
-						// ReservaService.pesquisaReservasDoDia(campoData,
-						// categoriaItemReserva, itemReserva);
-
-						// Preenche a lista de itens disponíveis
 						listaItemDisponivel = ReservaService.pesquisaItemReservaDisponivel(loginBean.getCampus(),
 								campoData, campoHoraInicial, campoHoraFinal, categoriaItemReserva, itemReserva);
 

@@ -30,12 +30,10 @@ public class PesquisaCategoriaItemReservaBean extends JavaBean {
 	public void init() {
 		try {
 			listaCategoria = CategoriaItemReservaService.pesquisar(
-					loginBean.getCampus(), null, null);
-			// this.addInfoMessage("Pesquisar","Exibindo  " +
-			// HibernateDAO.PESQUISA_LIMITE +
-			// " itens. Pesquise utilizando parâmetros para obter mais registros.");
+			loginBean.getCampus(), null, null);
+			
 		} catch (Exception e) {
-			// this.addErrorMessage("Pesquisar","Erro ao realizar pesquisa inicial. Entre em contato com o Admin.");
+			this.addErrorMessage("Pesquisar","Erro ao realizar pesquisa inicial. Entre em contato com o Admin.");
 		}
 	}
 

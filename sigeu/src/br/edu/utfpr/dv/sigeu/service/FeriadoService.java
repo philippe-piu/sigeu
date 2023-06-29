@@ -11,16 +11,16 @@ import br.edu.utfpr.dv.sigeu.entities.Feriado;
 import br.edu.utfpr.dv.sigeu.persistence.Transaction;
 
 public class FeriadoService {
+	public static Transaction trans = new Transaction();
+	public static FeriadoDAO dao = new FeriadoDAO(trans);
 	/**
 	 * Cria nova
 	 * 
 	 * @param cat
 	 */
 	public static void criar(Feriado cat) {
-		Transaction trans = new Transaction();
 		trans.begin();
 
-		FeriadoDAO dao = new FeriadoDAO(trans);
 		dao.criar(cat);
 
 		trans.commit();
@@ -33,10 +33,8 @@ public class FeriadoService {
 	 * @param cat
 	 */
 	public static void alterar(Feriado cat) {
-		Transaction trans = new Transaction();
 		trans.begin();
 
-		FeriadoDAO dao = new FeriadoDAO(trans);
 		dao.alterar(cat);
 
 		trans.commit();
@@ -50,12 +48,9 @@ public class FeriadoService {
 	 * @throws Exception
 	 */
 	public static void persistir(Feriado item) throws Exception {
-		Transaction trans = new Transaction();
 
 		try {
 			trans.begin();
-
-			FeriadoDAO dao = new FeriadoDAO(trans);
 
 			if (item.getIdFeriado() != null) {
 				dao.alterar(item);
@@ -82,12 +77,8 @@ public class FeriadoService {
 	public static List<Feriado> pesquisar(Campus campus, String textoPesquisa) throws Exception {
 		List<Feriado> lista = null;
 
-		Transaction trans = new Transaction();
-
 		try {
 			trans.begin();
-
-			FeriadoDAO dao = new FeriadoDAO(trans);
 
 			if (textoPesquisa == null || textoPesquisa.trim().length() <= 0) {
 				lista = dao.pesquisa(campus, 0);
@@ -119,11 +110,9 @@ public class FeriadoService {
 	 * @throws Exception
 	 */
 	public static Feriado encontrePorId(Integer editarId) throws Exception {
-		Transaction trans = new Transaction();
 
 		try {
 			trans.begin();
-			FeriadoDAO dao = new FeriadoDAO(trans);
 			Feriado obj = dao.encontrePorId(editarId);
 			if (obj != null) {
 				Hibernate.initialize(obj.getIdCampus());
@@ -145,12 +134,10 @@ public class FeriadoService {
 	 * @throws Exception
 	 */
 	public static void remover(Feriado item) throws Exception {
-		Transaction trans = new Transaction();
 
 		try {
 			trans.begin();
 
-			FeriadoDAO dao = new FeriadoDAO(trans);
 			Feriado existente = dao.encontrePorId(item.getIdFeriado());
 
 			dao.remover(existente);
@@ -166,12 +153,8 @@ public class FeriadoService {
 	public static List<Feriado> pesquisarPorData(Campus campus, Date dataInicial, Date dataFinal) throws Exception {
 		List<Feriado> lista = null;
 
-		Transaction trans = new Transaction();
-
 		try {
 			trans.begin();
-
-			FeriadoDAO dao = new FeriadoDAO(trans);
 
 			lista = dao.pesquisa(campus, dataInicial, dataFinal);
 
@@ -202,12 +185,8 @@ public class FeriadoService {
 	public static boolean verificaFeriado(Campus campus, Date data) {
 		List<Feriado> lista = null;
 
-		Transaction trans = new Transaction();
-
 		try {
 			trans.begin();
-
-			FeriadoDAO dao = new FeriadoDAO(trans);
 
 			lista = dao.pesquisa(campus, data);
 

@@ -161,10 +161,6 @@ public class AgendaReservaBean extends JavaBean {
 				if (campoItem == null || campoItem.trim().length() == 0) {
 					itemReserva = null;
 				}
-				// if (itemReserva == null) {
-				// this.addWarnMessage("Item",
-				// "Item de reserva não pode estar vazio!");
-				// } else {
 
 				try {
 					CategoriaItemReserva categoria = null;
@@ -214,15 +210,13 @@ public class AgendaReservaBean extends JavaBean {
 					this.addErrorMessage("Reserva", "Erro ao pesquisar reservas!");
 					e.printStackTrace();
 				}
-				// }
+				
 			}
 		}
 	}
 
 	private void reservaParaAgenda() {
 		listaPeriodoReservaVO = new ArrayList<PeriodoReservaVO>();
-
-		// System.out.println("---> Reservas: " + listaReserva.size());
 
 		for (Reserva r : listaReserva) {
 			PeriodoReservaVO vo = new PeriodoReservaVO();
@@ -302,10 +296,6 @@ public class AgendaReservaBean extends JavaBean {
 
 	public void gravaCancelamentoReserva() {
 
-		// listaReservaCancelamentoVO =
-		// ReservaService.listaReservaPorTransacao(loginBean.getCampus(),
-		// r.getIdTransacao().getIdTransacao());
-
 		List<Reserva> listExcluir = new ArrayList<Reserva>();
 		listExcluir.add(reservaCancelar);
 
@@ -327,7 +317,6 @@ public class AgendaReservaBean extends JavaBean {
 		}
 
 		this.showTab = 1;
-		// this.motivoCancelamento = "";
 
 		// Refaz pesquisa
 		pesquisa();

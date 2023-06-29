@@ -52,9 +52,6 @@ public class PessoaBean extends JavaBean {
 
 				if (this.pessoa == null) {
 					this.pessoa = new Pessoa();
-					// this.pessoa.setCampus(new Campus());
-					// this.pessoa.getIdCampus().setIdInstituicao(new
-					// Instituicao());
 					this.addInfoMessage("Carregar", "Pessoa " + this.editarId + " inexistente.");
 				}
 			} catch (Exception e) {
@@ -66,7 +63,6 @@ public class PessoaBean extends JavaBean {
 
 	public void passwordChanged() {
 		this.passwordModified = true;
-		//System.out.println("Password changed!");
 	}
 
 	/**
@@ -80,8 +76,6 @@ public class PessoaBean extends JavaBean {
 
 			pessoa.setSenhaMd5(hash);
 
-			// this.addErrorMessage("Gravar", "Inclusão de pessoas é feito através de
-			// Login.");
 			try {
 				PessoaService.criar(pessoa);
 				String label = pessoa.getIdPessoa() + "-" + pessoa.getNomeCompleto();

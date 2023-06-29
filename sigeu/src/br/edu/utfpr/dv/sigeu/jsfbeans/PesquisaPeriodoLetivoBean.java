@@ -14,32 +14,31 @@ import br.edu.utfpr.dv.sigeu.service.PeriodoLetivoService;
 @Named
 @ViewScoped
 public class PesquisaPeriodoLetivoBean extends JavaBean {
+	
 	@Inject
 	private LoginBean loginBean;
 	
 	private static final long serialVersionUID = -7338998125000395663L;
 
-	//
 	private String textoPesquisa;
 	private List<PeriodoLetivo> lista;
 
-	//
-
 	@PostConstruct
 	public void init() {
-		try {
-			String nullS = null;
-			lista = PeriodoLetivoService.pesquisar(loginBean.getCampus(), nullS);
-		} catch (Exception e) {
-		}
+		pesquisarPeriodoLetivo(null);
 	}
 
 	/**
-	 * Realiza a pesquisa de itens
+	 * Realiza a pesquisa de períodos letivos
+	 * @param query o texto de pesquisa
 	 */
 	public void pesquisa() {
+		pesquisarPeriodoLetivo(textoPesquisa);
+	}
+
+	private void pesquisarPeriodoLetivo(String query) {
 		try {
-			this.lista = PeriodoLetivoService.pesquisar(loginBean.getCampus(), textoPesquisa);
+			lista = PeriodoLetivoService.pesquisar(loginBean.getCampus(), query);
 		} catch (Exception e) {
 			e.printStackTrace();
 			addErrorMessage("Pesquisa", "Erro na pesquisa");
@@ -57,5 +56,4 @@ public class PesquisaPeriodoLetivoBean extends JavaBean {
 	public void setTextoPesquisa(String textoPesquisa) {
 		this.textoPesquisa = textoPesquisa;
 	}
-
 }

@@ -21,7 +21,7 @@ public class TipoReservaBean extends JavaBean {
 	private static final long serialVersionUID = -7332998125885395663L;
 
 	private Integer editarId = null;
-	//
+	
 	private TipoReserva tipoReserva = new TipoReserva();
 
 	@PostConstruct

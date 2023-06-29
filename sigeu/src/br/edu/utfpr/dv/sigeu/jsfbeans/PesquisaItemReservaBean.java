@@ -40,12 +40,9 @@ public class PesquisaItemReservaBean extends JavaBean {
 	public void init() {
 		try {
 			lista = ItemReservaService.pesquisar(loginBean.getCampus(), null, null);
-			// this.addInfoMessage("Pesquisar", "Exibindo  " +
-			// HibernateDAO.PESQUISA_LIMITE +
-			// " itens. Pesquise utilizando parâmetros para obter mais registros.");
+			
 		} catch (Exception e) {
-			// this.addErrorMessage("Pesquisar",
-			// "Erro ao realizar pesquisa inicial. Entre em contato com o Admin.");
+			
 		}
 	}
 
@@ -56,8 +53,6 @@ public class PesquisaItemReservaBean extends JavaBean {
 		try {
 			this.lista = ItemReservaService.pesquisar(loginBean.getCampus(), textoPesquisa, null);
 
-			// RequestContext.getCurrentInstance().update("frmPesquisa");
-			// RequestContext.getCurrentInstance().openDialog("PesquisaItemReservaModal");
 		} catch (Exception e) {
 			e.printStackTrace();
 			addErrorMessage("Pesquisar", "Erro na pesquisa");
@@ -65,7 +60,6 @@ public class PesquisaItemReservaBean extends JavaBean {
 	}
 
 	public void editaAutorizadores(ItemReserva i) {
-		// System.out.println("---> " + i.getIdItemReserva());
 		this.status = 2;
 		try {
 			this.itemReserva = ItemReservaService.encontrePorId(i

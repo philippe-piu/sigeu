@@ -28,10 +28,9 @@ public class PesquisaPessoaBean extends JavaBean {
 	public void init() {
 		try {
 			lista = PessoaService.pesquisar(loginBean.getCampus(), null);
-			//this.addInfoMessage("Pesquisar", "Exibindo  " + HibernateDAO.PESQUISA_LIMITE + " itens. Pesquise utilizando parâmetros para obter mais registros.");
+			
 		} catch (Exception e) {
-			//this.addErrorMessage("Pesquisar", "Erro ao realizar pesquisa inicial. Entre em contato com o Admin.");
-		}
+			
 	}
 
 	/**

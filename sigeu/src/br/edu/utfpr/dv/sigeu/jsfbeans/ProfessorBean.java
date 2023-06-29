@@ -72,7 +72,6 @@ public class ProfessorBean extends JavaBean {
 	 * gravada no banco de dados se ela já existir
 	 */
 	public String gravar() {
-		// addInfoMessage("", "PESSOA: " + pessoa.getNomeCompleto());
 		if (pessoa == null) {
 			addErrorMessage("Pessoa",
 					"Nenhuma pessoa selecionada para relacionamento");
@@ -102,9 +101,6 @@ public class ProfessorBean extends JavaBean {
 		listaPessoa = null;
 
 		try {
-			// listaPessoa = PessoaService
-			// .pesquisar(query, true, "PROFESSORES", 0);
-
 			listaPessoa = PessoaService.pesquisar(loginBean.getCampus(), query, true, 0);
 
 			if (listaPessoa != null && listaPessoa.size() > 0) {

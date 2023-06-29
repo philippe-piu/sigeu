@@ -59,11 +59,6 @@ public class LoginBean extends JavaBean {
 
 		if (manutencao && !email.toLowerCase().equals("admin")) {
 			this.addErrorMessage("Login", "SISTEMA EM MANUTENÇÃO. AGUARDE OS SERVIÇOS SEREM REESTABELECIDOS.");
-			// try {
-			// throw new ManutencaoException();
-			// } catch (ManutencaoException e) {
-			// handleException("", e);
-			// }
 
 			ok = false;
 		} else {
@@ -124,11 +119,6 @@ public class LoginBean extends JavaBean {
 			} catch (ConstraintViolationException e) {
 				ok = false;
 				handleException("Erro de gravação no banco de dados: {" + e.getSQLException().getMessage() + "}", e);
-				// handleException("Erro de gravação no banco de dados: {"+
-				// e.getSQLException().getMessage() + "\n " +
-				// (e.getSQLException().getNextException() != null
-				// ? e.getSQLException().getNextException().getMessage() : "") +
-				// "}",e);
 			} catch (Exception e) {
 				ok = false;
 				handleException("Ocorreu um erro ao tentar comunicar com o servidor de autenticação", e);
@@ -142,13 +132,10 @@ public class LoginBean extends JavaBean {
 					this.addWarnMessage("E-MAILS", "ENVIO DE E-MAILS DESABILITADO.");
 				}
 
-				// DEBUG
-				// this.sendTestMail(campus);
-
 				return "/restrito/Home.xhtml";
 			}
 		}
-		// }
+		
 
 		return null;
 	}

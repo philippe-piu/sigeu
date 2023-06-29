@@ -15,19 +15,16 @@ import br.edu.utfpr.dv.sigeu.service.CampusService;
 public class PesquisaCampusBean extends JavaBean {
 	private static final long serialVersionUID = -7332998115885395433L;
 
-	//
 	private String textoPesquisa;
 	private List<Campus> lista;
-
-	//
 
 	@PostConstruct
 	public void init() {
 		try {
 			lista = CampusService.pesquisar(null);
-			//this.addInfoMessage("Pesquisar", "Exibindo  " + HibernateDAO.PESQUISA_LIMITE + " itens. Pesquise utilizando parâmetros para obter mais registros.");
+			// this.addInfoMessage("Pesquisar", "Exibindo " + HibernateDAO.PESQUISA_LIMITE + " itens. Pesquise utilizando parâmetros para obter mais registros.");
 		} catch (Exception e) {
-			//this.addErrorMessage("Pesquisar", "Erro ao realizar pesquisa inicial. Entre em contato com o Admin.");
+			// this.addErrorMessage("Pesquisar", "Erro ao realizar pesquisa inicial. Entre em contato com o Admin.");
 		}
 	}
 

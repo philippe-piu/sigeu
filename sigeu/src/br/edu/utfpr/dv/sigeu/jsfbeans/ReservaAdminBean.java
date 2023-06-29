@@ -82,7 +82,6 @@ public class ReservaAdminBean extends JavaBean {
 				addErrorMessage("XML", "Arquivo não foi importado!");
 			} else {
 				String fileName = xmlFile.getFileName();
-				// byte[] data = event.getFile().getContents();
 				byte[] data = IOUtils.toByteArray(xmlFile.getInputstream());
 
 				if (data == null) {

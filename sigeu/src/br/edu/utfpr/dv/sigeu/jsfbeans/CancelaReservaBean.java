@@ -66,8 +66,6 @@ public class CancelaReservaBean extends JavaBean {
 	private void carregaLista(Integer idTransacao) {
 		listaReservaVO = ReservaService.listaReservaPorTransacao(
 				loginBean.getCampus(), idTransacao);
-		// System.out.println(">>> Carregou " + listaReservaVO.size() +
-		// " reservas");
 	}
 
 	/**
@@ -75,8 +73,6 @@ public class CancelaReservaBean extends JavaBean {
 	 */
 	public void excluiReservas() {
 		if (listaReservaVO != null) {
-			// System.out.println(">>> Excluindo " + listaReservaVO.size() +
-			// " reservas");
 
 			List<Reserva> listExcluir = new ArrayList<Reserva>();
 

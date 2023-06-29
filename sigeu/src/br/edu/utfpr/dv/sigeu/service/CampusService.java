@@ -12,18 +12,19 @@ import br.edu.utfpr.dv.sigeu.persistence.HibernateDAO;
 import br.edu.utfpr.dv.sigeu.persistence.Transaction;
 
 public class CampusService {
-
+	//Criação de objeto
+	private static Transaction trans = new Transaction();
+	private static CampusDAO dao = new CampusDAO(trans);
 	/**
 	 * Conta a qtde de campus
 	 */
 	public static Integer contarCampus() {
-		Transaction trans = null;
+		trans = null;
 		try {
 
 			trans = new Transaction();
 			trans.begin();
 
-			CampusDAO dao = new CampusDAO(trans);
 			int q = dao.contarCampus();
 			return q;
 		} catch (Exception e) {
@@ -42,10 +43,8 @@ public class CampusService {
 	 * @param i
 	 */
 	public static void criar(Campus i) {
-		Transaction trans = new Transaction();
 		trans.begin();
 
-		CampusDAO dao = new CampusDAO(trans);
 		dao.criar(i);
 
 		trans.commit();
@@ -58,10 +57,8 @@ public class CampusService {
 	 * @param i
 	 */
 	public static void alterar(Campus i) {
-		Transaction trans = new Transaction();
 		trans.begin();
 
-		CampusDAO dao = new CampusDAO(trans);
 		dao.alterar(i);
 
 		trans.commit();
@@ -78,12 +75,9 @@ public class CampusService {
 	public static List<Campus> pesquisar(String textoPesquisa) throws Exception {
 		List<Campus> lista = null;
 
-		Transaction trans = new Transaction();
-
 		try {
 			trans.begin();
 
-			CampusDAO dao = new CampusDAO(trans);
 			lista = dao.pesquisa(textoPesquisa, 0);
 
 			for (Campus c : lista) {
@@ -110,12 +104,9 @@ public class CampusService {
 	public static List<Campus> pesquisar(String textoPesquisa, Instituicao instituicao) throws Exception {
 		List<Campus> lista = null;
 
-		Transaction trans = new Transaction();
-
 		try {
 			trans.begin();
 
-			CampusDAO dao = new CampusDAO(trans);
 			if (textoPesquisa == null || textoPesquisa.trim().length() <= 0) {
 				lista = dao.pesquisa(instituicao, HibernateDAO.PESQUISA_LIMITE);
 			} else {
@@ -144,7 +135,6 @@ public class CampusService {
 	 * @throws Exception
 	 */
 	public static Campus encontrePorId(Integer editarId) throws Exception {
-		Transaction trans = new Transaction();
 
 		try {
 			trans.begin();
@@ -170,12 +160,10 @@ public class CampusService {
 	 * @throws Exception
 	 */
 	public static void remover(Campus i) throws EntidadePossuiRelacionamentoException, Exception {
-		Transaction trans = new Transaction();
 
 		try {
 			trans.begin();
 
-			CampusDAO dao = new CampusDAO(trans);
 			Campus campusBd = dao.encontrePorId(i.getIdCampus());
 
 			Hibernate.initialize(campusBd.getGrupoPessoaList());
@@ -196,12 +184,10 @@ public class CampusService {
 	}
 
 	public static Campus encontrePorEmail(String email) throws Exception {
-		Transaction trans = new Transaction();
 
 		try {
 			trans.begin();
 
-			CampusDAO dao = new CampusDAO(trans);
 			Campus obj = dao.encontrePorEmail(email);
 
 			if (obj != null) {
@@ -219,12 +205,10 @@ public class CampusService {
 	}
 
 	public static Campus encontrePorSigla(String sigla) throws Exception {
-		Transaction trans = new Transaction();
 
 		try {
 			trans.begin();
 
-			CampusDAO dao = new CampusDAO(trans);
 			Campus obj = dao.encontrePorSigla(sigla);
 
 			if (obj != null) {
