@@ -31,9 +31,4 @@ public class ClassroomDAO extends HibernateDAO<Classroom> {
 		o.setIdClassroom(id.intValue());
 	}
 
-	@Override
-	public void preAlteracao(Classroom o) {
-		
-	}
-
 }

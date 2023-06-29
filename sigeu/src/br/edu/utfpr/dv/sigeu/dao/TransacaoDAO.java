@@ -53,9 +53,4 @@ public class TransacaoDAO extends HibernateDAO<Transacao> {
 		return t;
 	}
 
-	@Override
-	public void preAlteracao(Transacao o) {
-		
-	}
-
 }

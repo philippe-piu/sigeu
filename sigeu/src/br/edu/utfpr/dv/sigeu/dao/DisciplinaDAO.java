@@ -56,9 +56,4 @@ public class DisciplinaDAO extends HibernateDAO<Disciplina> {
 		o.setIdDisciplina(val);
 	}
 
-	@Override
-	public void preAlteracao(Disciplina o) {
-		
-	}
-
 }

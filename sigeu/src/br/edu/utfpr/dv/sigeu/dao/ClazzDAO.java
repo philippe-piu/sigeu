@@ -31,9 +31,4 @@ public class ClazzDAO extends HibernateDAO<Clazz> {
 		o.setIdClazz(id.intValue());
 	}
 
-	@Override
-	public void preAlteracao(Clazz o) {
-		
-	}
-
 }

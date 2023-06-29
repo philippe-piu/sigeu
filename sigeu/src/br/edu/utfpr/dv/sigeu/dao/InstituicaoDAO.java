@@ -78,8 +78,4 @@ public class InstituicaoDAO extends HibernateDAO<Instituicao> {
 		return null;
 	}
 
-	@Override
-	public void preAlteracao(Instituicao o) {
-		
-	}
 }

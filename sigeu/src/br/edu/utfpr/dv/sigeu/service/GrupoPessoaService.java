@@ -15,6 +15,9 @@ import br.edu.utfpr.dv.sigeu.entities.Pessoa;
 import br.edu.utfpr.dv.sigeu.persistence.Transaction;
 
 public class GrupoPessoaService {
+	//Criação de objeto
+	private static Transaction trans = new Transaction();
+	private static GrupoPessoaDAO dao = new GrupoPessoaDAO(trans);
 
 	/**
 	 * Cria um novo grupo
@@ -22,10 +25,8 @@ public class GrupoPessoaService {
 	 * @param gp
 	 */
 	public static void criar(GrupoPessoa gp) {
-		Transaction trans = new Transaction();
 		trans.begin();
 
-		GrupoPessoaDAO dao = new GrupoPessoaDAO(trans);
 		dao.criar(gp);
 
 		trans.commit();
@@ -33,10 +34,8 @@ public class GrupoPessoaService {
 	}
 
 	public static void alterar(GrupoPessoa gp) {
-		Transaction trans = new Transaction();
 		trans.begin();
 
-		GrupoPessoaDAO dao = new GrupoPessoaDAO(trans);
 		dao.alterar(gp);
 
 		trans.commit();
@@ -58,18 +57,11 @@ public class GrupoPessoaService {
 	 *            Lista de grupos do LDAP
 	 */
 	public static void atualizaGrupos(Transaction trans, Pessoa pessoa, List<GrupoPessoa> grupos) throws Exception {
-		// try {
-		// trans = new Transaction();
-		// trans.begin();
 
 		PessoaDAO pessoaDAO = new PessoaDAO(trans);
 		GrupoPessoaDAO grupoPessoaDAO = new GrupoPessoaDAO(trans);
 
-		// Busca novamente do banco de dados
-		// pessoa = pessoaDAO.encontrePorId(pessoa.getIdPessoa());
-
 		List<GrupoPessoa> gruposCadastrados = pessoa.getGrupoPessoaList();
-		// List<GrupoPessoa> listaVazia = new ArrayList<GrupoPessoa>();
 
 		boolean modificado = false;
 
@@ -84,7 +76,7 @@ public class GrupoPessoaService {
 				boolean naoRelacionado = true;
 
 				for (GrupoPessoa grupoCadastrado : gruposCadastrados) {
-					// if (grupoCadastrado.getNome().equals(gp.getNome())) {
+			
 					if (grupoCadastrado.getIdGrupoPessoa() == gp.getIdGrupoPessoa()) {
 						eliminado = false;
 						break;
@@ -97,7 +89,7 @@ public class GrupoPessoaService {
 				}
 
 				for (GrupoPessoa grupoCadastrado : gruposCadastrados) {
-					// if (gp.getNome().equals(grupoCadastrado.getNome())) {
+				
 					if (gp.getIdGrupoPessoa() == grupoCadastrado.getIdGrupoPessoa()) {
 						naoRelacionado = false;
 						break;
@@ -118,16 +110,12 @@ public class GrupoPessoaService {
 					GrupoPessoa grupo = pessoa.getGrupoPessoaList().get(i);
 					grupo.getPessoaList().remove(pessoa);
 					grupoPessoaDAO.alterar(grupo);
-					// i--;
 				}
 			}
 
 			pessoa.setGrupoPessoaList(null);
 			pessoaDAO.alterar(pessoa);
 
-			// Adiciona a pessoa a cada grupo
-			// List<Pessoa> pessoaList = new ArrayList<Pessoa>();
-			// pessoaList.add(pessoa);
 
 			// Inclui novamente os grupos buscando do banco de dados
 			gruposCadastrados = new ArrayList<GrupoPessoa>();
@@ -154,16 +142,6 @@ public class GrupoPessoaService {
 			pessoaDAO.alterar(pessoa);
 		}
 
-		// trans.commit();
-		// } catch (Exception e) {
-		// throw e;
-		// } finally {
-		// if (trans != null) {
-		// trans.close();
-		// }
-		//
-		// }
-
 	}
 
 	/**
@@ -178,10 +156,8 @@ public class GrupoPessoaService {
 	 */
 	public static GrupoPessoa encontrePorDescricao(Campus campus, String descricao)
 			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, SQLException {
-		Transaction trans = new Transaction();
 		trans.begin();
 
-		GrupoPessoaDAO dao = new GrupoPessoaDAO(trans);
 		GrupoPessoa gp = dao.encontrePorDescricao(campus, descricao);
 
 		if (gp != null) {
@@ -200,10 +176,8 @@ public class GrupoPessoaService {
 	 * @return
 	 */
 	public static GrupoPessoa encontrePorId(Integer id) {
-		Transaction trans = new Transaction();
 		trans.begin();
-
-		GrupoPessoaDAO dao = new GrupoPessoaDAO(trans);
+		
 		GrupoPessoa gp = dao.encontrePorId(id);
 		Hibernate.initialize(gp.getIdCampus());
 		Hibernate.initialize(gp.getIdCampus().getIdInstituicao());

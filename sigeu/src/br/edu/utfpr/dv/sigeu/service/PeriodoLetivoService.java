@@ -12,19 +12,18 @@ import br.edu.utfpr.dv.sigeu.persistence.HibernateDAO;
 import br.edu.utfpr.dv.sigeu.persistence.Transaction;
 
 public class PeriodoLetivoService {
+	public static Transaction trans = new Transaction();
+	public static PeriodoLetivoDAO dao = new PeriodoLetivoDAO(trans);
 	/**
 	 * Cria nova
 	 * 
 	 * @param pl
 	 */
 	public static void criar(PeriodoLetivo pl) throws Exception {
-		Transaction trans = new Transaction();
+	
 		try {
 			trans.begin();
-
-			PeriodoLetivoDAO dao = new PeriodoLetivoDAO(trans);
 			dao.criar(pl);
-
 			trans.commit();
 		} catch (Exception e) {
 			throw e;
@@ -39,13 +38,10 @@ public class PeriodoLetivoService {
 	 * @param cat
 	 */
 	public static void alterar(PeriodoLetivo cat) throws Exception {
-		Transaction trans = new Transaction();
+	
 		try {
 			trans.begin();
-
-			PeriodoLetivoDAO dao = new PeriodoLetivoDAO(trans);
 			dao.alterar(cat);
-
 			trans.commit();
 		} catch (Exception e) {
 			throw e;
@@ -62,13 +58,9 @@ public class PeriodoLetivoService {
 	 * @throws Exception
 	 */
 	public static void persistir(PeriodoLetivo item) throws Exception {
-		Transaction trans = new Transaction();
 
 		try {
 			trans.begin();
-
-			PeriodoLetivoDAO dao = new PeriodoLetivoDAO(trans);
-
 			if (item.getIdPeriodoLetivo() != null) {
 				dao.alterar(item);
 			} else {
@@ -93,12 +85,8 @@ public class PeriodoLetivoService {
 	public static List<PeriodoLetivo> pesquisar(Campus campus, String textoPesquisa) throws Exception {
 		List<PeriodoLetivo> lista = null;
 
-		Transaction trans = new Transaction();
-
 		try {
 			trans.begin();
-
-			PeriodoLetivoDAO dao = new PeriodoLetivoDAO(trans);
 
 			if (textoPesquisa == null || textoPesquisa.trim().length() <= 0) {
 				lista = dao.pesquisa(campus, HibernateDAO.PESQUISA_LIMITE);
@@ -130,11 +118,9 @@ public class PeriodoLetivoService {
 	 * @throws Exception
 	 */
 	public static PeriodoLetivo encontrePorId(Integer editarId) throws Exception {
-		Transaction trans = new Transaction();
 
 		try {
 			trans.begin();
-			PeriodoLetivoDAO dao = new PeriodoLetivoDAO(trans);
 			PeriodoLetivo obj = dao.encontrePorId(editarId);
 			if (obj != null) {
 				Hibernate.initialize(obj.getIdCampus());
@@ -156,12 +142,9 @@ public class PeriodoLetivoService {
 	 * @throws Exception
 	 */
 	public static void remover(PeriodoLetivo item) throws Exception {
-		Transaction trans = new Transaction();
 
 		try {
 			trans.begin();
-
-			PeriodoLetivoDAO dao = new PeriodoLetivoDAO(trans);
 			PeriodoLetivo existente = dao.encontrePorId(item.getIdPeriodoLetivo());
 
 			dao.remover(existente);
@@ -184,13 +167,8 @@ public class PeriodoLetivoService {
 	public static List<PeriodoLetivo> pesquisar(Campus campus) throws Exception {
 		List<PeriodoLetivo> lista = null;
 
-		Transaction trans = new Transaction();
-
 		try {
 			trans.begin();
-
-			PeriodoLetivoDAO dao = new PeriodoLetivoDAO(trans);
-
 			lista = dao.pesquisa(campus);
 
 		} catch (Exception e) {
@@ -205,11 +183,8 @@ public class PeriodoLetivoService {
 
 	public static PeriodoLetivo encontrePorNome(Campus campus, String value) throws Exception {
 
-		Transaction trans = new Transaction();
-
 		try {
 			trans.begin();
-			PeriodoLetivoDAO dao = new PeriodoLetivoDAO(trans);
 			return dao.encontrePorNome(campus, value);
 		} catch (Exception e) {
 			throw e;
@@ -220,11 +195,8 @@ public class PeriodoLetivoService {
 
 	public static PeriodoLetivo encontreAtual(Campus campus, Date data) throws Exception {
 
-		Transaction trans = new Transaction();
-
 		try {
 			trans.begin();
-			PeriodoLetivoDAO dao = new PeriodoLetivoDAO(trans);
 			return dao.encontreAtual(campus, data);
 		} catch (Exception e) {
 			throw e;

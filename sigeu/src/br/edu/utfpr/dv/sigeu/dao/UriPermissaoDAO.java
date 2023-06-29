@@ -52,8 +52,4 @@ public class UriPermissaoDAO extends HibernateDAO<UriPermissao> {
 		return this.pesquisaObjetos(q, 0);
 	}
 
-	@Override
-	public void preAlteracao(UriPermissao o) {
-
-	}
 }

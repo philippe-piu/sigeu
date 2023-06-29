@@ -54,9 +54,4 @@ public class SequenciaDAO extends HibernateDAO<Sequencia> {
 		// Nothing to do
 	}
 
-	@Override
-	public void preAlteracao(Sequencia o) {
-		
-	}
-
 }

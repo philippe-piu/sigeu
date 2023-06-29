@@ -83,17 +83,12 @@ public class IntegrationService {
 	public static final String PROFESSOR_NAO_CADASTRADO_NOME = "PROFESSOR NÃO CADASTRADO";
 	private static final String PROFESSOR_NAO_CADASTRADO_ID = "0000000000000000";
 
-	// private static SimpleDateFormat dateFormat = new SimpleDateFormat(
-	// "dd/MM/yyyy");
-
-	// private static SimpleDateFormat hourFormat = new
-	// SimpleDateFormat("HH:mm");
+	public static Transaction transaction = new Transaction();
 
 	public static void deleteAllPreviousTimetables(Campus campus) throws Exception {
-		Transaction transaction = null;
+		transaction = null;
 
 		try {
-			transaction = new Transaction();
 			transaction.begin();
 			TimetableDAO ttDAO = new TimetableDAO(transaction);
 			ttDAO.deleteAllPreviousTimetables(campus);
@@ -117,12 +112,8 @@ public class IntegrationService {
 
 		String pathUpload = null;
 
-		// if (Config.getInstance().isDebugMode()) {
-		// pathUpload = Config.getInstance().getConfig(
-		// "dev." + Config.CONFIG_PATH_UPLOAD);
-		// } else {
 		pathUpload = Config.getInstance().getConfig(Config.CONFIG_PATH_UPLOAD);
-		// }
+	
 
 		fileName = pathUpload + File.separator + fileName;
 
@@ -146,11 +137,6 @@ public class IntegrationService {
 	public static Integer importXml(Campus campus, String xmlFileName) throws Exception {
 		// Remove todas as importações anteriores
 		IntegrationService.deleteAllPreviousTimetables(campus);
-
-		// String fileName = Config.getInstance().getConfig(
-		// (Config.getInstance().isDebugMode() ? "dev." : "")
-		// + Config.CONFIG_PATH_UPLOAD)
-		// + File.separator + xmlFileName;
 
 		String fileName = Config.getInstance().getConfig(Config.CONFIG_PATH_UPLOAD) + File.separator + xmlFileName;
 
@@ -319,7 +305,7 @@ public class IntegrationService {
 				Element e = (Element) nNode;
 
 				Integer period = Integer.valueOf(e.getAttribute("period").trim());
-				// String name = e.getAttribute("name").trim();
+				
 				String name = period.toString();
 				String shortname = StringUtils.left(e.getAttribute("short").trim(), 32);
 
@@ -394,9 +380,6 @@ public class IntegrationService {
 				String classroomids = e.getAttribute("classroomids").trim();
 				String teacherids = e.getAttribute("teacherids").trim();
 
-				// if (id.equals("7850B82A3ED95253")) {
-				// System.out.println(id);
-				// }
 
 				teacherids = (teacherids == null || teacherids.trim().length() == 0 ? PROFESSOR_NAO_CADASTRADO_ID
 						: teacherids);
@@ -524,9 +507,6 @@ public class IntegrationService {
 			trans.close();
 		}
 
-		// Importação final
-		// criaCalendarioAula(timetable.getIdTimetable());
-
 		// Relaciona professores
 		System.out.println("Relaciona Professor Pessoa...");
 		IntegrationService.relacionaProfessorPessoa(campus);
@@ -551,9 +531,8 @@ public class IntegrationService {
 			Integer idPeriodoLetivo) throws Exception {
 
 		// Atualiza professores
-		// IntegrationService.relacionaProfessorPessoa();
 
-		Transaction trans = null;
+		 trans = null;
 
 		try {
 			System.out.println("Iniciando transação...");
@@ -672,9 +651,7 @@ public class IntegrationService {
 				 * ALTERA A CATEGORIA DA SALA DE AULA (OU LABORATÓRIOS) SE ELES
 				 * JÁ EXISTIREM.
 				 */
-				// ItemReserva sala =
-				// itemReservaDAO.encontrePorDescricaoECategoria(campus,
-				// categoria, c.getName());
+		
 				ItemReserva sala = itemReservaDAO.encontrePorDescricao(campus, c.getName());
 
 				if (sala == null) {
@@ -847,7 +824,6 @@ public class IntegrationService {
 			BigDecimal row = new BigDecimal("0");
 			int progress = 0;
 
-			// while (true) {
 			for (int i = 0; i <= totalDias; i++) {
 
 				// Adds a line
@@ -925,9 +901,7 @@ public class IntegrationService {
 										}
 
 										// Periodo
-										// Period period =
-										// periodDAO.encontrePorNome(
-										// idTimeTable, card.getPeriod());
+									
 										Period period = mapPeriodList.get(card.getPeriod());
 
 										// Disciplina
@@ -1018,8 +992,7 @@ public class IntegrationService {
 			ProfessorPessoaDAO professorPessoaDAO = new ProfessorPessoaDAO(trans);
 
 			List<Pessoa> listPessoa = pessoaDAO.pesquisa(campus, null, 0);
-			// List<Pessoa> listPessoa = pessoaDAO.pesquisaPorGrupo(Config
-			// .getInstance().getCampus(), "PROFESSORES", 0);
+			
 			List<Professor> listProfessor = professorDAO.pesquisaTodos(campus);
 
 			List<PessoaSimilarity> listSimilarity = null;
@@ -1059,12 +1032,6 @@ public class IntegrationService {
 
 					Pessoa pessoa = listSimilarity.get(0).getPessoa();
 
-					// for (Pessoa pessoa : listPessoa) {
-					// if (prof.getName()
-					// .trim()
-					// .toUpperCase()
-					// .equals(pessoa.getNomeCompleto().trim()
-					// .toUpperCase())) {
 					boolean exists = true;
 
 					ProfessorPessoa pp = null;
@@ -1162,14 +1129,12 @@ public class IntegrationService {
 
 		try {
 			trans = new Transaction();
-			// Campus campus = Config.getInstance().getCampus();
 
 			trans.begin();
 
 			PessoaDAO pessoaDAO = new PessoaDAO(trans);
 			GrupoPessoaDAO grupoPessoaDAO = new GrupoPessoaDAO(trans);
 
-			// LdapServer ldap = LdapServerService.encontrePorEmail(emailLogin);
 			LdapServer ldap = campus.getLdapServerList().get(0);
 
 			LdapUtils ldapUtils = new LdapUtils(ldap.getHost(), ldap.getPort(), ldap.getSsl(), true, ldap.getBasedn(),
@@ -1204,9 +1169,6 @@ public class IntegrationService {
 			List<String> nomeGrupos = null;
 			GrupoPessoa gp = null;
 			/**/
-
-			// String varLdapCampus =
-			// ldap.getVarLdapCampus().trim().toUpperCase();
 
 			BigDecimal total = new BigDecimal(String.valueOf(mapa.size()));
 			BigDecimal row = new BigDecimal("0");
@@ -1257,8 +1219,6 @@ public class IntegrationService {
 					}
 				}
 
-				// System.out.println(uid);
-
 				pessoa = null;
 
 				/**
@@ -1285,7 +1245,6 @@ public class IntegrationService {
 					}
 				}
 
-				// pessoa = PessoaService.encontrePorEmail(email);
 				pessoa = pessoaDAO.encontrePorEmail(email, campus);
 
 				update = true;
@@ -1335,11 +1294,9 @@ public class IntegrationService {
 				pessoa.setLdapCampus(lCampus);
 
 				if (update) {
-					// PessoaService.alterar(pessoa);
 					pessoaDAO.alterar(pessoa);
 					alteradas++;
 				} else {
-					// PessoaService.criar(pessoa);
 					pessoaDAO.criar(pessoa);
 					criadas++;
 				}
@@ -1351,8 +1308,6 @@ public class IntegrationService {
 				 * ENCONTRA GRUPO DA PESSOA
 				 * ======================================================
 				 */
-				// Confere os grupos da Pessoa
-				// baseDn = ldapUtils.getDnByUid(uid);
 
 				// Pesquisa o uid atual dentro da lista da árvore
 				baseDn = userTree.get(uid);
@@ -1368,8 +1323,7 @@ public class IntegrationService {
 				 */
 
 				for (String grupo : nomeGrupos) {
-					// GrupoPessoa gp =
-					// GrupoPessoaService.encontrePorDescricao(grupo);
+				
 					gp = grupoPessoaDAO.encontrePorDescricao(campus, grupo);
 
 					if (gp == null) {

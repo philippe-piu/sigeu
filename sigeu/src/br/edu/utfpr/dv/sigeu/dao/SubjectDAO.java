@@ -31,9 +31,4 @@ public class SubjectDAO extends HibernateDAO<Subject> {
 		o.setIdSubject(id.intValue());
 	}
 
-	@Override
-	public void preAlteracao(Subject o) {
-		
-	}
-
 }

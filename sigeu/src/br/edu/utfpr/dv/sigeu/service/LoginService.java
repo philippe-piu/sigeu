@@ -38,7 +38,6 @@ public class LoginService {
 
 		// Fixa Campus 100
 		Campus campus = CampusService.encontrePorId(100);
-		// Campus campus = CampusService.encontrePorEmail(email);
 
 		if (admin) {
 			/*
@@ -70,7 +69,6 @@ public class LoginService {
 
 			// Confere se autenticou por LDAP. Em caso positivo, já cadastra a
 			// pessoa no banco de dados
-			// LdapServer ldap = LoginService.getLdapByEmail(email);
 			LdapServer ldap = campus.getLdapServerList().get(0);
 
 			if (ldap == null) {
@@ -132,7 +130,6 @@ public class LoginService {
 			pessoa.setAtivo(true);
 			pessoa.setCnpjCpf(cnpjCpf);
 			pessoa.setEmail(email);
-			//pessoa.setIdCampus(ldap.getIdCampus());
 			pessoa.setMatricula(matricula);
 			pessoa.setNomeCompleto(nomeCompleto);
 			pessoa.setPessoaFisica(true);
@@ -189,12 +186,7 @@ public class LoginService {
 				
 				pessoa = atualizaGruposPessoa(pessoa, grupos);
 			}
-		}
-
-//		// Busca novamente do banco para preencher atributos faltantes
-//		if (!admin) {
-//			pessoa = PessoaService.encontrePorId(pessoa.getIdPessoa());
-//		}
+		}	
 
 		return pessoa;
 
@@ -224,30 +216,5 @@ public class LoginService {
 		}
 		return pessoa;
 	}
-
-	// /**
-	// * Busca um objeto LdapServer por e-mail
-	// *
-	// * @param email
-	// * @return
-	// */
-	// public static LdapServer getLdapByEmail(String email) throws Exception {
-	// Transaction trans = new Transaction();
-	// LdapServer ldap = null;
-	// try {
-	// trans.begin();
-	//
-	// LdapServerDAO ldapDAO;
-	//
-	// ldapDAO = new LdapServerDAO(trans);
-	// ldap = ldapDAO.encontrePorEmail(email);
-	// } catch (Exception e) {
-	// throw e;
-	// } finally {
-	// trans.close();
-	// }
-	//
-	// return ldap;
-	// }
 
 }

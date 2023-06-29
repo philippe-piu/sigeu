@@ -27,13 +27,13 @@ import br.edu.utfpr.dv.sigeu.vo.ReservaVO;
 import com.adamiworks.utils.DateTimeUtils;
 
 public class ReservaService {
+	public static Transaction trans = new Transaction();
+	public static ReservaDAO dao = new ReservaDAO(trans);
 
 	public static Reserva encontrePorId(Integer idReserva) {
-		Transaction trans = new Transaction();
-
+		
 		try {
 			trans.begin();
-			ReservaDAO dao = new ReservaDAO(trans);
 			Reserva r = dao.encontrePorId(idReserva);
 			return r;
 		} catch (Exception e) {
@@ -58,18 +58,14 @@ public class ReservaService {
 		// autorizador é quem gravou a reserva.
 		reserva.setIdAutorizador(reserva.getIdPessoa());
 
-		Transaction trans = new Transaction();
 		Transacao transacao = TransacaoService.criar(campus, pessoaLogin,
 		        "Reserva do item " + reserva.getIdItemReserva().getNome());
 		reserva.setIdTransacao(transacao);
 
 		try {
 			trans.begin();
-			ReservaDAO dao = new ReservaDAO(trans);
 			ItemReservaDAO itemDAO = new ItemReservaDAO(trans);
-
 			ItemReserva ir = itemDAO.encontrePorId(reserva.getIdItemReserva().getIdItemReserva());
-
 			reserva.setStatus(StatusReserva.EFETIVADA.getStatus());
 
 			// A lista de pessoas refere-se à lista de autorizadores
@@ -119,7 +115,6 @@ public class ReservaService {
 	 */
 	public static void alterar(Campus campus, Pessoa pessoaLogin, List<Reserva> listaReserva, String motivoTransacao)
 	        throws Exception {
-		Transaction trans = new Transaction();
 		Transacao transacao = TransacaoService.criar(campus, pessoaLogin, motivoTransacao);
 
 		try {
@@ -141,7 +136,6 @@ public class ReservaService {
 				}
 
 				reserva.setIdTransacao(transacao);
-				ReservaDAO dao = new ReservaDAO(trans);
 				dao.alterar(reserva);
 			}
 
@@ -211,17 +205,13 @@ public class ReservaService {
 		reserva.setIdAutorizador(reserva.getIdPessoa());
 
 		if (tipoRecorrencia.equals(RepeticaoReservaEnum.SEMANAL)) {
-			Transaction trans = new Transaction();
 			Transacao transacao = TransacaoService.criar(campus, pessoaLogin,
 			        "Reserva do item " + reserva.getIdItemReserva().getNome() + " semanal");
 			reserva.setIdTransacao(transacao);
 
 			try {
 				trans.begin();
-
 				ReservaDAO dao = new ReservaDAO(trans);
-				ItemReservaDAO itemDAO = new ItemReservaDAO(trans);
-
 				ItemReserva ir = itemDAO.encontrePorId(reserva.getIdItemReserva().getIdItemReserva());
 
 				reserva.setStatus(StatusReserva.EFETIVADA.getStatus());
@@ -362,12 +352,9 @@ public class ReservaService {
 	public static List<Reserva> pesquisaReservasEfetivadas(Campus campus, Date data, Date horaI, Date horaF,
 	        TipoReserva tipoReserva, CategoriaItemReserva categoria, ItemReserva item, String usuario)
 	        throws Exception {
-		Transaction trans = new Transaction();
 
 		try {
 			trans.begin();
-			ReservaDAO dao = new ReservaDAO(trans);
-
 			List<Reserva> lista = dao.pesquisaReserva(campus, StatusReserva.EFETIVADA, data, horaI, horaF, tipoReserva,
 			        categoria, item, usuario);
 
@@ -395,12 +382,10 @@ public class ReservaService {
 	public static List<Reserva> pesquisaReservasEfetivadas(Campus campus, Date data, Date data2, Date horaI, Date horaF,
 	        TipoReserva tipoReserva, CategoriaItemReserva categoria, ItemReserva item, String usuario, String motivo,
 	        boolean incluiItemDesativado) throws Exception {
-		Transaction trans = new Transaction();
-
+		
 		try {
 			trans.begin();
-			ReservaDAO dao = new ReservaDAO(trans);
-
+		
 			List<Reserva> lista = dao.pesquisaReserva(campus, StatusReserva.EFETIVADA, data, data2, horaI, horaF,
 			        tipoReserva, categoria, item, usuario, motivo, incluiItemDesativado);
 
@@ -439,12 +424,10 @@ public class ReservaService {
 	 */
 	public static List<ItemReserva> pesquisaItemReservaDisponivel(Campus campus, Date data, Date horaInicial,
 	        Date horaFinal, CategoriaItemReserva categoria, ItemReserva item) throws Exception {
-		Transaction trans = new Transaction();
+		
 
 		try {
 			trans.begin();
-			ItemReservaDAO dao = new ItemReservaDAO(trans);
-
 			List<ItemReserva> lista = dao.pesquisaItemReservaDisponivel(campus, data, horaInicial, horaFinal, categoria,
 			        item);
 
@@ -482,12 +465,9 @@ public class ReservaService {
 	 */
 	public static List<Reserva> pesquisaReservasEfetivadasDoUsuario(Campus campus, Pessoa pessoa, Date dataInicial,
 	        Date dataFinal, CategoriaItemReserva categoria, ItemReserva item, boolean importadas) throws Exception {
-		Transaction trans = new Transaction();
 
 		try {
 			trans.begin();
-			ReservaDAO dao = new ReservaDAO(trans);
-
 			List<Reserva> lista = dao.pesquisaReservaDoUsuario(campus, StatusReserva.EFETIVADA, pessoa, dataInicial,
 			        dataFinal, categoria, item, importadas);
 
@@ -512,11 +492,9 @@ public class ReservaService {
 	}
 
 	public static Reserva pesquisaReservaPorId(Integer id) throws Exception {
-		Transaction trans = new Transaction();
 
 		try {
 			trans.begin();
-			ReservaDAO dao = new ReservaDAO(trans);
 			Reserva r = dao.encontrePorId(id);
 			return r;
 		} catch (Exception e) {
@@ -528,14 +506,10 @@ public class ReservaService {
 	}
 
 	public static void excluir(Reserva r) throws Exception {
-		Transaction trans = new Transaction();
-
+	
 		try {
 			trans.begin();
-			ReservaDAO dao = new ReservaDAO(trans);
-
 			dao.remover(r);
-
 			trans.commit();
 		} catch (Exception e) {
 			trans.rollback();
@@ -554,7 +528,6 @@ public class ReservaService {
 	 * @throws Exception
 	 */
 	public static void modificaStatus(Reserva r, StatusReserva status) throws Exception {
-		Transaction trans = new Transaction();
 
 		try {
 			trans.begin();
@@ -598,12 +571,10 @@ public class ReservaService {
 	 */
 	public static List<Reserva> pesquisaReservasEfetivadas(Campus campus, Date data, Date horaInicial, Date horaFinal,
 	        CategoriaItemReserva categoria, ItemReserva item) throws Exception {
-		Transaction trans = new Transaction();
 
 		try {
 			trans.begin();
-			ReservaDAO dao = new ReservaDAO(trans);
-
+	
 			List<Reserva> lista = dao.pesquisaReserva(campus, StatusReserva.EFETIVADA, data, horaInicial, horaFinal,
 			        categoria, item);
 
@@ -626,8 +597,7 @@ public class ReservaService {
 	}
 
 	public static List<Period> getAllPeriods(Campus campus) throws Exception {
-		Transaction trans = new Transaction();
-
+	
 		try {
 			trans.begin();
 			PeriodDAO dao = new PeriodDAO(trans);
@@ -645,12 +615,10 @@ public class ReservaService {
 
 	public static List<Reserva> pesquisaReservasEfetivadas(Campus campus, Date data, TipoReserva tipoReserva)
 	        throws Exception {
-		Transaction trans = new Transaction();
-
+		
 		try {
 			trans.begin();
-			ReservaDAO dao = new ReservaDAO(trans);
-
+			
 			List<Reserva> lista = dao.pesquisaReserva(campus, StatusReserva.EFETIVADA, data, tipoReserva);
 
 			if (lista != null && lista.size() > 0) {
@@ -719,14 +687,8 @@ public class ReservaService {
 					break;
 				}
 
-				// System.out.println("---");
-				// System.out.println("Conferindo: " + calendarAtual.getTime() +
-				// " <= " + dataLimite);
-
 				int diaDaSemanaAtual = calendarAtual.get(Calendar.DAY_OF_WEEK);
 
-				// System.out.println("Dia da semana: " + diaDaSemanaAtual +
-				// " em relação a " + diaDaSemana);
 
 				if (tipoRecorrencia.equals(RepeticaoReservaEnum.SEMANAL)) {
 
@@ -750,12 +712,8 @@ public class ReservaService {
 					r.setIdItemReserva(i);
 					r.setIdPessoa(pessoaLogin);
 
-					// System.out.println("Conferindo data: " +
-					// calendarAtual.getTime() + " item: " + i.getNome());
-
 					if (ReservaService.existeConcorrente(r)) {
 						listaDeItensARemover.add(i);
-						// System.out.println("--> Existe concorrência!");
 					}
 				}
 

@@ -40,8 +40,5 @@ public class ClasseDAO extends HibernateDAO<Classe> {
         return (Classe) q.uniqueResult();
     }
 
-    @Override
-    public void preAlteracao(Classe o) {
-        // Implementação vazia, nenhum comportamento especial antes da alteração
-    }
+   
 }

@@ -48,9 +48,4 @@ public class ProfessorPessoaDAO extends HibernateDAO<ProfessorPessoa> {
 		// o.setIdProfessor(val);
 	}
 
-	@Override
-	public void preAlteracao(ProfessorPessoa o) {
-		
-	}
-
 }

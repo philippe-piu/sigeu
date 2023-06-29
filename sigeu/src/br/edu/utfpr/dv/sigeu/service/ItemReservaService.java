@@ -17,11 +17,13 @@ public class ItemReservaService {
 	 * 
 	 * @param cat
 	 */
+	public static Transaction trans = new Transaction();
+	public static ItemReservaDAO dao = new ItemReservaDAO(trans);
+
 	public static void criar(ItemReserva cat) {
-		Transaction trans = new Transaction();
+
 		trans.begin();
 
-		ItemReservaDAO dao = new ItemReservaDAO(trans);
 		dao.criar(cat);
 
 		trans.commit();
@@ -34,10 +36,9 @@ public class ItemReservaService {
 	 * @param cat
 	 */
 	public static void alterar(ItemReserva cat) {
-		Transaction trans = new Transaction();
+		
 		trans.begin();
 
-		ItemReservaDAO dao = new ItemReservaDAO(trans);
 		dao.alterar(cat);
 
 		trans.commit();
@@ -102,11 +103,9 @@ public class ItemReservaService {
 	 * @throws Exception
 	 */
 	public static ItemReserva encontrePorId(Integer editarId) throws Exception {
-		Transaction trans = new Transaction();
 
 		try {
 			trans.begin();
-			ItemReservaDAO dao = new ItemReservaDAO(trans);
 			ItemReserva obj = dao.encontrePorId(editarId);
 			if (obj != null) {
 				Hibernate.initialize(obj.getIdCampus());
@@ -129,12 +128,10 @@ public class ItemReservaService {
 	 * @throws Exception
 	 */
 	public static void remover(ItemReserva item) throws Exception {
-		Transaction trans = new Transaction();
 
 		try {
 			trans.begin();
 
-			ItemReservaDAO dao = new ItemReservaDAO(trans);
 			ItemReserva existente = dao.encontrePorId(item.getIdItemReserva());
 
 			if (existente != null) {
@@ -161,12 +158,8 @@ public class ItemReservaService {
 			Boolean ativo) throws Exception {
 		List<ItemReserva> lista = null;
 
-		Transaction trans = new Transaction();
-
 		try {
 			trans.begin();
-
-			ItemReservaDAO dao = new ItemReservaDAO(trans);
 
 			lista = dao.pesquisa(campus, categoriaItemReserva, textoPesquisa,
 					ativo, 0);

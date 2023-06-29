@@ -13,6 +13,8 @@ import br.edu.utfpr.dv.sigeu.entities.ProfessorPessoa;
 import br.edu.utfpr.dv.sigeu.persistence.Transaction;
 
 public class ProfessorService {
+	public static Transaction trans = new Transaction();
+	public static ProfessorDAO dao = new ProfessorDAO(trans);
 
 	/**
 	 * Realiza a pesquisa no banco de dados conforme o texto
@@ -25,12 +27,9 @@ public class ProfessorService {
 			throws Exception {
 		List<Professor> lista = null;
 
-		Transaction trans = new Transaction();
-
 		try {
 			trans.begin();
 
-			ProfessorDAO dao = new ProfessorDAO(trans);
 			lista = dao.pesquisa(campus, textoPesquisa);
 
 			if (lista != null && lista.size() > 0) {
@@ -60,12 +59,9 @@ public class ProfessorService {
 	 * @throws Exception
 	 */
 	public static Professor encontrePorId(Integer editarId) throws Exception {
-		Transaction trans = new Transaction();
 
 		try {
 			trans.begin();
-
-			ProfessorDAO dao = new ProfessorDAO(trans);
 			Professor obj = dao.encontrePorId(editarId);
 
 			return obj;
@@ -87,15 +83,12 @@ public class ProfessorService {
 			Professor professor) {
 		if (pessoa != null && professor != null) {
 
-			Transaction trans = null;
+			trans = null;
 
 			try {
 				trans = new Transaction();
 				trans.begin();
-
 				boolean exists = false;
-				ProfessorPessoaDAO professorPessoaDAO = new ProfessorPessoaDAO(
-						trans);
 				ProfessorPessoa pp = null;
 				pp = professorPessoaDAO.encontrePorId(professor
 						.getIdProfessor());

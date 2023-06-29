@@ -49,9 +49,4 @@ public class LessonDAO extends HibernateDAO<Lesson> {
 		o.setIdLesson(id.intValue());
 	}
 
-	@Override
-	public void preAlteracao(Lesson o) {
-
-	}
-
 }

@@ -93,9 +93,4 @@ public class TimetableDAO extends HibernateDAO<Timetable> {
 			throw e;
 		}
 	}
-
-	@Override
-	public void preAlteracao(Timetable o) {
-
-	}
 }

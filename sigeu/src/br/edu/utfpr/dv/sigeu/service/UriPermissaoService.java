@@ -39,8 +39,7 @@ public class UriPermissaoService {
 	public static boolean verificaPermissaoDeAcesso(Pessoa pessoa, String uri) {
 		Transaction trans = null;
 
-		//System.out.println("     "+uri);
-		
+
 		if (pessoa.getExterno() && pessoa.isExternoReserva() && uri.equals("/sigeu/restrito/Reserva.xhtml")) {
 			return true;
 		}
@@ -62,32 +61,13 @@ public class UriPermissaoService {
 			for (GrupoPessoa g : grupos) {
 				// Verifica se o grupo da pessoa está cadastrado
 
-				// System.out.println("Grupo Pessoa = "+g.getIdGrupoPessoa());
 				for (UriPermissao u : list) {
-					// System.out.println(" Grupo Permissao =
-					// "+u.getIdGrupoPessoa().getIdGrupoPessoa());
+			
 					if (u.getIdGrupoPessoa().getIdGrupoPessoa() == g.getIdGrupoPessoa()) {
 						return u.getAcesso();
 					}
 				}
-				/*
-				 * Não cadastrar automaticamente
-				 */
-				// if (exists) {
-				// return permissao.getAcesso();
-				// } else {
-				// /**
-				// * Quando não está cadastrado, considera liberado e cria
-				// * novo registro
-				// */
-				// permissao = new UriPermissao();
-				// permissao.setAcesso(true);
-				// permissao.setIdCampus(pessoa.getIdCampus());
-				// permissao.setIdGrupoPessoa(g);
-				// permissao.setUri(uri);
-				// UriPermissaoService.criar(permissao);
-				// return true;
-				// }
+				
 			}
 
 			/**

@@ -11,16 +11,17 @@ import br.edu.utfpr.dv.sigeu.persistence.HibernateDAO;
 import br.edu.utfpr.dv.sigeu.persistence.Transaction;
 
 public class InstituicaoService {
+	//Criação de objeto
+	private static Transaction trans = new Transaction();
+	private static InstituicaoDAO dao = new InstituicaoDAO(trans);
 	/**
 	 * Cria novo
 	 * 
 	 * @param i
 	 */
 	public static void criar(Instituicao i) {
-		Transaction trans = new Transaction();
 		trans.begin();
 
-		InstituicaoDAO dao = new InstituicaoDAO(trans);
 		dao.criar(i);
 
 		trans.commit();
@@ -33,10 +34,9 @@ public class InstituicaoService {
 	 * @param i
 	 */
 	public static void alterar(Instituicao i) {
-		Transaction trans = new Transaction();
+
 		trans.begin();
 
-		InstituicaoDAO dao = new InstituicaoDAO(trans);
 		dao.alterar(i);
 
 		trans.commit();
@@ -53,12 +53,9 @@ public class InstituicaoService {
 	public static List<Instituicao> pesquisar(String textoPesquisa) throws Exception {
 		List<Instituicao> lista = null;
 
-		Transaction trans = new Transaction();
-
 		try {
 			trans.begin();
 
-			InstituicaoDAO dao = new InstituicaoDAO(trans);
 			if (textoPesquisa == null || textoPesquisa.trim().length() <= 0) {
 				lista = dao.pesquisa(HibernateDAO.PESQUISA_LIMITE);
 			} else {
@@ -83,12 +80,10 @@ public class InstituicaoService {
 	 * @throws Exception
 	 */
 	public static Instituicao encontrePorId(Integer editarId) throws Exception {
-		Transaction trans = new Transaction();
 
 		try {
 			trans.begin();
 
-			InstituicaoDAO dao = new InstituicaoDAO(trans);
 			Instituicao obj = dao.encontrePorId(editarId);
 			return obj;
 		} catch (Exception e) {
@@ -107,12 +102,10 @@ public class InstituicaoService {
 	 * @throws Exception
 	 */
 	public static void remover(Instituicao i) throws EntidadePossuiRelacionamentoException, Exception {
-		Transaction trans = new Transaction();
 
 		try {
 			trans.begin();
 
-			InstituicaoDAO dao = new InstituicaoDAO(trans);
 			Instituicao instituicaoBd = dao.encontrePorId(i.getIdInstituicao());
 
 			Hibernate.initialize(instituicaoBd.getCampusList());

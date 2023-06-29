@@ -58,9 +58,4 @@ public class PeriodDAO extends HibernateDAO<Period> {
 		return l;
 	}
 
-	@Override
-	public void preAlteracao(Period o) {
-		
-	}
-
 }

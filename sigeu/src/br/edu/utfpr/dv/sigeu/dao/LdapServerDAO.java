@@ -115,8 +115,4 @@ public class LdapServerDAO extends HibernateDAO<LdapServer> {
 		return null;
 	}
 
-	@Override
-	public void preAlteracao(LdapServer o) {
-
-	}
 }

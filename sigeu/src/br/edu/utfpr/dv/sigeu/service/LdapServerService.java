@@ -17,13 +17,12 @@ public class LdapServerService {
 	 * 
 	 * @param i
 	 */
+	public static Transaction trans = new Transaction();
+	public static LdapServerDAO dao = new LdapServerDAO(trans);
+
 	public static void criar(LdapServer i) {
-		Transaction trans = new Transaction();
 		trans.begin();
-
-		LdapServerDAO dao = new LdapServerDAO(trans);
 		dao.criar(i);
-
 		trans.commit();
 		trans.close();
 	}
@@ -34,12 +33,8 @@ public class LdapServerService {
 	 * @param i
 	 */
 	public static void alterar(LdapServer i) {
-		Transaction trans = new Transaction();
 		trans.begin();
-
-		LdapServerDAO dao = new LdapServerDAO(trans);
 		dao.alterar(i);
-
 		trans.commit();
 		trans.close();
 	}
@@ -54,12 +49,9 @@ public class LdapServerService {
 	public static List<LdapServer> pesquisar(Campus campus, String textoPesquisa) throws Exception {
 		List<LdapServer> lista = null;
 
-		Transaction trans = new Transaction();
-
 		try {
 			trans.begin();
 
-			LdapServerDAO dao = new LdapServerDAO(trans);
 			if (textoPesquisa == null || textoPesquisa.trim().length() <= 0) {
 				lista = dao.pesquisa(campus, HibernateDAO.PESQUISA_LIMITE);
 			} else {
@@ -91,12 +83,10 @@ public class LdapServerService {
 	 * @throws Exception
 	 */
 	public static LdapServer encontrePorId(Integer editarId) throws Exception {
-		Transaction trans = new Transaction();
 
 		try {
 			trans.begin();
 
-			LdapServerDAO dao = new LdapServerDAO(trans);
 			LdapServer obj = dao.encontrePorId(editarId);
 			if (obj != null) {
 				Hibernate.initialize(obj.getIdCampus());
@@ -119,12 +109,10 @@ public class LdapServerService {
 	 * @throws Exception
 	 */
 	public static void remover(LdapServer i) throws EntidadePossuiRelacionamentoException, Exception {
-		Transaction trans = new Transaction();
 
 		try {
 			trans.begin();
 
-			LdapServerDAO dao = new LdapServerDAO(trans);
 			LdapServer ldapServerBd = dao.encontrePorId(i.getIdServer());
 
 			dao.remover(ldapServerBd);
@@ -138,13 +126,11 @@ public class LdapServerService {
 	}
 
 	public static LdapServer encontrePorEmail(String email) throws Exception {
-		Transaction trans = new Transaction();
+	
 		LdapServer ldap = null;
 
 		try {
 			trans.begin();
-
-			LdapServerDAO dao = new LdapServerDAO(trans);
 			ldap = dao.encontrePorEmail(email);
 			return ldap;
 		} catch (Exception e) {
